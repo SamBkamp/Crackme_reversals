@@ -39,7 +39,7 @@ In this loop, some changes are performed, presumably on our inputted string.
 
 After this loop ends, we head to the main check of the program where it seems to call begin() and end(). At this point I struggled to find my input string in the code. I went back to the main function and tried to track down its life there. I am not sure if this is compiler optimisation, intentional obfuscation or just how cpp/gpp deals with strings but I was unable to find where in memory my string even was. The program seemed to call both the << operator and getline() in the main function. I wrote my own cpp program to disassemble and take a closer look.
 
-After compiling and looking at the assembly code it hit me like a train, I was treating my string  like a c string (a null-terminated byte array). It's no wonder I couldn't find the text I was inputting as its in a class and not in memory directly like it might be in C. an extremely silly mistake.
+After compiling and looking at the assembly code it hit me like a train, I was treating my string  like a c string (a null-terminated byte array). It's no wonder I couldn't find the text, it was stored in a class structure and not in memory directly like it might be in C. an extremely silly mistake.
 
 Using `p (char *)$rbp-0x30+0x10`, we can see the string at that address. We get -0x30 from the offset pointed to by the assembler in the main function and +0x10 is the offset where the raw characters are actually stored (I found this out by examining the compiled cpp code I wrote with debugging symbols). We can see that our string in the main function is stored at $rbp-0x30 and $rbp-0x50
 
