@@ -4,7 +4,7 @@ I found this random pwnme code online and I wanted to give it a try to refresh m
 
 ## Write up
 
-This was a binary that use a call to read. This would be stored in the variable name and then compared to a secondary variable called secret, but how is it possible to pwn this if we can't change impact the variables being compared? Well there is a small bug in the code that makes it possible. Name has 100 bytes of space (100 chars, each char is 1 bye) but the read() function reads 0x100 bytes, which is 256 bytes. This means the read function can read more bytes from stdin as there is space to store it, this allows us to overflow the name buffer on the stack and potentially smash the stack and change the secret variable.
+This binary used a call to `read()` to read input from std in, this would be stored in the variable `name`. Then, another variable `secret` was compared to the number 0x1337, but how is it possible to pwn this if we can't change impact the variables being compared? Well, there is a small bug in the code that makes it possible. `name` has 100 bytes of space (100 chars, each char is 1 bye) but the read() function reads 0x100 bytes, which is 256 bytes. This means the read function can read more bytes from stdin as there is space to store it, this allows us to overflow the name buffer on the stack and potentially smash the stack and change the secret variable.
 
 To find out the offset of where the secret variable is in memory I used the cylic function in pwntools and pdbg.
 
@@ -30,3 +30,5 @@ p.sendline("A"*108 + "B"*4)
 Resulted in the `secret` area of memory to be completely overwritten with Bs. So, now I had the location and offset and all I had to do was replace the B's with the correct value, namely 0x1337.
 
 **pwned!**
+
+*note: I compiled this with -fno-stack-protector to remove the canary*
