@@ -4,7 +4,7 @@ I found this random pwnme code online and I wanted to give it a try to refresh m
 
 ## Write up
 
-This binary used a call to `read()` to read input from std in, this would be stored in the variable `name`. Then, another variable `secret` was compared to the number 0x1337, but how is it possible to pwn this if we can't change impact the variables being compared? Well, there is a small bug in the code that makes it possible. `name` has 100 bytes of space (100 chars, each char is 1 bye) but the read() function reads 0x100 bytes, which is 256 bytes. This means the read function can read more bytes from stdin as there is space to store it, this allows us to overflow the name buffer on the stack and potentially smash the stack and change the secret variable.
+This binary used a call to `read()` to read input from stdin, this would be stored in the variable `name`. Then, another variable `secret` was compared to the number 0x1337, but how is it possible to pwn this if we can't change the variables being compared? Well, there is a small bug in the code that makes it possible. `name` has 100 bytes of space (100 chars, each char is 1 bye) but the read() function reads 0x100 bytes, which is 256 bytes. This means the read function can read more bytes from stdin as there is space to store it, this allows us to overflow the name buffer on the stack and potentially smash the stack and change the secret variable.
 
 To find out the offset of where the secret variable is in memory I used the cylic function in pwntools and pdbg.
 
