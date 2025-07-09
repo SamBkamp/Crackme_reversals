@@ -1,6 +1,6 @@
 # Pico Format String 2
 
-from (here)[https://play.picoctf.org/practice/challenge/448?category=6&page=1]
+from [here](https://play.picoctf.org/practice/challenge/448?category=6&page=1)
 
 ## Write up
 
@@ -10,7 +10,7 @@ When I first opened the source file I was confused, I see the format string vuln
 
 So from this point I thought it was simple, I could write numbers to any location in registers or on the stack. Easy. But to pass the challenge I had to write to the location 0x404060 (the location of the sus variable which I found on my first time running the binary with gdb). This is where I ran into my first problem, I couldn't find that location on the stack anywhere. I wasn't sure how to write to that location if I don't have the location at all. First, I tried to overwrite a nearby location, 0x403e17 or something in the hopes it would overflow to 0x404060 but I just got a segfault. I kept leaking stack addresses in the hopes I could find that variable on the stack but I couldn't simply because the variable was used only once (before the cmp) and was loaded directly from program memory (0x404060) into a register.
 
-I got stuck and wanted to know the next step so I found a writeup on this challenge to see what they did next without spoling myself too much. I used (this)[https://blog.thecyberthesis.com/blog/writeups/picoCTF/pwn/format-string-2] write up to guide me. I only had to read a few sentences before I came across:
+I got stuck and wanted to know the next step so I found a writeup on this challenge to see what they did next without spoling myself too much. I used [this](https://blog.thecyberthesis.com/blog/writeups/picoCTF/pwn/format-string-2) write up to guide me. I only had to read a few sentences before I came across:
 
 > We could also send the addresses as input to the program which would put those addresses on the stack.
 
