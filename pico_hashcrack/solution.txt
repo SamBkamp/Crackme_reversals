@@ -1,0 +1,6 @@
+hashcat -a 0 -m 0 482c811da5d5b4bc6d497ffa98491e38 rockyou.txt
+password123
+hashcat -a 0 -m 100 b7a875fc1ea228b9061041b7cec4bd3c52ab3ce3 rockyou.txt
+letmein
+hashcat -a 0 -m 1470 916e8c4f79b25028c9e467f1eb8eee6d6bbdff965f9928310ad30a8d88697745 rockyou.txt
+qwerty098
